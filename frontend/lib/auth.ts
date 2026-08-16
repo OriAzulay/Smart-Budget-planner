@@ -18,8 +18,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         try {
           const response = await authApi.login({
-            email: credentials.email,
-            password: credentials.password,
+            email: credentials.email as string,
+            password: credentials.password as string,
           })
 
           const { access_token } = response.data
@@ -69,7 +69,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
     async session({ session, token }) {
       session.accessToken = token.accessToken as string
-      session.user = token.user as User
+      session.user = token.user as any
       return session
     },
   },

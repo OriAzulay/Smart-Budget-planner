@@ -28,6 +28,67 @@ export interface StatsOverview {
   new_this_month: number
 }
 
+export interface GridColumn {
+  id: string
+  label: string
+  order_index: number
+}
+
+export interface GridCell {
+  id: string
+  row_id: string
+  column_id: string
+  value: number | null
+}
+
+export interface GridRow {
+  id: string
+  label: string
+  order_index: number
+  cells: GridCell[]
+}
+
+export interface Grid {
+  id: string
+  key: string
+  title: string
+  created_at: string
+  columns: GridColumn[]
+  rows: GridRow[]
+}
+
+export type LineItemCategory = "income" | "fixed_expense" | "variable_expense"
+
+export interface MonthLineItem {
+  id: string
+  category: LineItemCategory
+  source: string
+  amount: number
+  notes: string | null
+  order_index: number
+}
+
+export interface MonthSummary {
+  id: string
+  name: string
+  order_index: number
+}
+
+export interface Month {
+  id: string
+  name: string
+  order_index: number
+  starting_balance: number
+  ending_balance: number
+  notes: string | null
+  line_items: MonthLineItem[]
+  total_income: number
+  total_fixed_expenses: number
+  total_variable_expenses: number
+  total_expenses: number
+  balance: number
+}
+
 declare module "next-auth" {
   interface Session {
     user?: User

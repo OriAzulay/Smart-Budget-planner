@@ -1,18 +1,16 @@
-"""Script to create database tables and admin user."""
+"""Script to seed the initial admin user.
+
+Run `alembic upgrade head` first — this script no longer creates tables itself;
+schema creation is owned solely by Alembic migrations.
+"""
 import asyncio
-from app.database import engine, AsyncSessionLocal
-from app.models.base import Base
+from app.database import AsyncSessionLocal
 from app.models.user import User, UserRole
 from app.services.auth_service import hash_password
 from sqlalchemy import select
 
 
 async def init_db():
-    # Create tables
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-    print("Database tables created!")
-    
     # Create admin user
     async with AsyncSessionLocal() as session:
         result = await session.execute(

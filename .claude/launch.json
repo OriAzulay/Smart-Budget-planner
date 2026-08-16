@@ -1,0 +1,25 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "frontend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3000,
+      "cwd": "./frontend",
+      "env": {
+        "NEXTAUTH_URL": "http://localhost:3000",
+        "NEXTAUTH_SECRET": "dev-secret-key",
+        "NEXT_PUBLIC_API_URL": "http://localhost:8000",
+        "NEXT_PUBLIC_SKIP_LOGIN": "true"
+      }
+    },
+    {
+      "name": "backend",
+      "runtimeExecutable": "venv\\Scripts\\python.exe",
+      "runtimeArgs": ["-m", "uvicorn", "app.main:app", "--reload", "--port", "8000"],
+      "port": 8000,
+      "cwd": "./backend"
+    }
+  ]
+}
