@@ -3,7 +3,6 @@ from enum import Enum
 from uuid import uuid4
 
 from sqlalchemy import Boolean, DateTime, String, Enum as SQLEnum
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models.base import Base
@@ -22,7 +21,7 @@ class User(Base):
     __tablename__ = "users"
 
     id: Mapped[str] = mapped_column(
-        UUID(as_uuid=True), primary_key=True, default=uuid4
+        String(36), primary_key=True, default=lambda: str(uuid4())
     )
     email: Mapped[str] = mapped_column(String(255), unique=True, index=True)
     name: Mapped[str] = mapped_column(String(255))

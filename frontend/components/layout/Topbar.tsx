@@ -7,10 +7,10 @@ export function Topbar() {
 
   return (
     <header className="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between">
-      <div className="text-slate-600">
-        <p className="text-sm">Welcome back,</p>
+      <div className="text-slate-600 text-right">
+        <p className="text-sm">ברוך הבא,</p>
         <p className="font-semibold text-slate-900">
-          {session?.user?.name || "User"}
+          {session?.user?.name || "משתמש"}
         </p>
       </div>
 
@@ -22,7 +22,7 @@ export function Topbar() {
           onClick={() => signOut()}
           className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
         >
-          Logout
+          התנתקות
         </button>
       </div>
     </header>

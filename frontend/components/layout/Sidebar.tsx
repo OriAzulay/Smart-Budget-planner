@@ -8,20 +8,15 @@ import { cn } from "@/lib/utils"
 
 const navItems = [
   {
-    label: "Dashboard",
+    label: "דשבורד",
     href: "/dashboard",
     icon: LayoutDashboard,
   },
   {
-    label: "Users",
+    label: "ניהול משתמשים",
     href: "/dashboard/users",
     icon: Users,
     adminOnly: true,
-  },
-  {
-    label: "Settings",
-    href: "/dashboard/settings",
-    icon: Settings,
   },
 ]
 
@@ -31,8 +26,9 @@ export function Sidebar() {
 
   return (
     <aside className="hidden md:flex w-64 h-screen bg-slate-900 text-white flex-col">
-      <div className="p-6 border-b border-slate-700">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
+      <div className="p-6 border-b border-slate-700 text-right">
+        <h1 className="text-xl font-bold">💰 תקציב משפחתי</h1>
+        <p className="text-slate-400 text-xs mt-1">ניהול תקציב חכם</p>
       </div>
 
       <nav className="flex-1 p-4 space-y-2">
@@ -49,14 +45,14 @@ export function Sidebar() {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 px-4 py-3 rounded-lg transition-colors",
+                "flex items-center gap-3 px-4 py-3 rounded-lg transition-colors flex-row-reverse justify-end",
                 isActive
                   ? "bg-blue-600 text-white"
                   : "text-slate-300 hover:bg-slate-800"
               )}
             >
-              <Icon className="w-5 h-5" />
               <span>{item.label}</span>
+              <Icon className="w-5 h-5" />
             </Link>
           )
         })}
@@ -65,10 +61,10 @@ export function Sidebar() {
       <div className="p-4 border-t border-slate-700">
         <button
           onClick={() => signOut()}
-          className="flex items-center gap-3 w-full px-4 py-3 text-slate-300 hover:bg-slate-800 rounded-lg transition-colors"
+          className="flex items-center gap-3 w-full px-4 py-3 text-slate-300 hover:bg-slate-800 rounded-lg transition-colors flex-row-reverse justify-end"
         >
+          <span>התנתקות</span>
           <LogOut className="w-5 h-5" />
-          <span>Logout</span>
         </button>
       </div>
     </aside>

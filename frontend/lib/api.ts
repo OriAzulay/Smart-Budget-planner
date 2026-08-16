@@ -16,9 +16,8 @@ export const apiClient = (): AxiosInstance => {
     instance.interceptors.request.use(
       async (config) => {
         try {
-          const { useSession } = await import("next-auth/react")
-          const { data: session } = useSession()
-          
+          const { getSession } = await import("next-auth/react")
+          const session = await getSession()
           if (session?.accessToken) {
             config.headers.Authorization = `Bearer ${session.accessToken}`
           }
@@ -69,4 +68,40 @@ export const usersApi = {
 
 export const statsApi = {
   overview: () => apiClient().get("/stats/overview"),
+}
+
+export const gridsApi = {
+  get: (key: string) => apiClient().get(`/grids/${key}`),
+  addColumn: (key: string, label: string) =>
+    apiClient().post(`/grids/${key}/columns`, { label }),
+  addRow: (key: string, label: string) =>
+    apiClient().post(`/grids/${key}/rows`, { label }),
+  deleteColumn: (key: string, columnId: string) =>
+    apiClient().delete(`/grids/${key}/columns/${columnId}`),
+  deleteRow: (key: string, rowId: string) =>
+    apiClient().delete(`/grids/${key}/rows/${rowId}`),
+  upsertCell: (key: string, data: { row_id: string; column_id: string; value: number | null }) =>
+    apiClient().put(`/grids/${key}/cells`, data),
+}
+
+export const monthsApi = {
+  list: () => apiClient().get("/months"),
+  create: (name: string) => apiClient().post("/months", { name }),
+  get: (id: string) => apiClient().get(`/months/${id}`),
+  update: (
+    id: string,
+    data: Partial<{ name: string; starting_balance: number; ending_balance: number; notes: string }>
+  ) => apiClient().patch(`/months/${id}`, data),
+  delete: (id: string) => apiClient().delete(`/months/${id}`),
+  addLineItem: (
+    monthId: string,
+    data: { category: string; source: string; amount?: number; notes?: string | null }
+  ) => apiClient().post(`/months/${monthId}/line-items`, data),
+  updateLineItem: (
+    monthId: string,
+    itemId: string,
+    data: Partial<{ source: string; amount: number; notes: string | null }>
+  ) => apiClient().patch(`/months/${monthId}/line-items/${itemId}`, data),
+  deleteLineItem: (monthId: string, itemId: string) =>
+    apiClient().delete(`/months/${monthId}/line-items/${itemId}`),
 }

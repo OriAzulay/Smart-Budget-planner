@@ -1,12 +1,17 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+
+// DEV TOGGLE: set NEXT_PUBLIC_SKIP_LOGIN=false in frontend/.env.local to restore
+// the normal login screen. While true, this page auto-signs-in as the seeded
+// admin user instead of showing the form.
+const SKIP_LOGIN = process.env.NEXT_PUBLIC_SKIP_LOGIN === "true"
 
 export default function LoginPage() {
   const router = useRouter()
@@ -37,6 +42,25 @@ export default function LoginPage() {
     } finally {
       setLoading(false)
     }
+  }
+
+  useEffect(() => {
+    if (!SKIP_LOGIN) return
+    signIn("credentials", {
+      email: "admin@admin.com",
+      password: "admin123",
+      redirect: false,
+    }).then((result) => {
+      if (result?.ok) router.push("/dashboard")
+    })
+  }, [router])
+
+  if (SKIP_LOGIN) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center p-4">
+        <p className="text-white text-sm">מתחבר אוטומטית (מצב פיתוח)...</p>
+      </div>
+    )
   }
 
   return (
