@@ -14,7 +14,7 @@ const navItems = [
   },
   {
     label: "ניהול משתמשים",
-    href: "/dashboard/users",
+    href: "/users",
     icon: Users,
     adminOnly: true,
   },
