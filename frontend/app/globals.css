@@ -2,6 +2,84 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Light: "soft and friendly" — deep teal, coral, cream */
+:root {
+  --background: 255 244 234;
+  --foreground: 31 78 95;
+  --surface: 255 255 255;
+  --muted: 255 249 243;
+  --muted-foreground: 122 139 145;
+  --accent: 255 231 214;
+  --border: 243 220 203;
+  --input: 243 220 203;
+  --ring: 244 132 95;
+  --primary: 244 132 95;
+  --primary-foreground: 255 255 255;
+  --secondary: 31 78 95;
+  --secondary-foreground: 255 255 255;
+  --income: 42 157 143;
+  --expense: 224 93 93;
+  --warning: 242 165 65;
+  --sidebar: 255 255 255;
+  --sidebar-foreground: 31 78 95;
+  --sidebar-hover: 255 231 214;
+  --sidebar-border: 243 220 203;
+  --shadow: 244 132 95;
+  --radius: 0.75rem;
+}
+
+/* Dark: "night premium" — night blue, electric violet, cyan */
+.dark {
+  --background: 11 16 32;
+  --foreground: 230 232 245;
+  --surface: 21 27 56;
+  --muted: 17 23 51;
+  --muted-foreground: 138 144 184;
+  --accent: 26 33 71;
+  --border: 37 45 92;
+  --input: 37 45 92;
+  --ring: 124 92 255;
+  --primary: 124 92 255;
+  --primary-foreground: 255 255 255;
+  --secondary: 34 211 238;
+  --secondary-foreground: 11 16 32;
+  --income: 34 211 238;
+  --expense: 255 107 139;
+  --warning: 251 191 36;
+  --sidebar: 17 23 51;
+  --sidebar-foreground: 201 204 230;
+  --sidebar-hover: 26 33 71;
+  --sidebar-border: 37 45 92;
+  --shadow: 0 0 0;
+  color-scheme: dark;
+}
+
 html {
   scroll-behavior: smooth;
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: rgb(var(--border));
+  }
+
+  input,
+  textarea,
+  select {
+    background-color: rgb(var(--surface));
+    color: rgb(var(--foreground));
+  }
+
+  ::placeholder {
+    color: rgb(var(--muted-foreground));
+  }
+}
+
+body,
+aside,
+header,
+main {
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
 }

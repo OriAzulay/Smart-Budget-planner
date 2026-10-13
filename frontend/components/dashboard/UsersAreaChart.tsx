@@ -2,6 +2,13 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
+import { useTheme } from "@/components/theme/ThemeProvider"
+
+// Recharts takes colors as props, so mirror the theme tokens here.
+const chartColors = {
+  light: { line: "#F4845F", grid: "#F3DCCB", axis: "#7A8B91", tooltipBg: "#1F4E5F", tooltipBorder: "#1F4E5F", tooltipText: "#FFF4EA" },
+  dark: { line: "#7C5CFF", grid: "#252D5C", axis: "#8A90B8", tooltipBg: "#151B38", tooltipBorder: "#252D5C", tooltipText: "#E6E8F5" },
+}
 
 // Mock data for the last 7 days
 const mockData = [
@@ -15,35 +22,37 @@ const mockData = [
 ]
 
 export function UsersAreaChart() {
+  const colors = chartColors[useTheme().theme]
+
   return (
-    <Card className="col-span-1 md:col-span-2 bg-white">
+    <Card className="col-span-1 md:col-span-2">
       <CardHeader>
-        <CardTitle className="text-slate-900">New Users (Last 7 Days)</CardTitle>
+        <CardTitle className="text-foreground">New Users (Last 7 Days)</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>
           <AreaChart data={mockData}>
             <defs>
               <linearGradient id="colorUsers" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
-                <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                <stop offset="5%" stopColor={colors.line} stopOpacity={0.3} />
+                <stop offset="95%" stopColor={colors.line} stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-            <XAxis dataKey="day" stroke="#94a3b8" />
-            <YAxis stroke="#94a3b8" />
+            <CartesianGrid strokeDasharray="3 3" stroke={colors.grid} />
+            <XAxis dataKey="day" stroke={colors.axis} />
+            <YAxis stroke={colors.axis} />
             <Tooltip
               contentStyle={{
-                backgroundColor: "#1e293b",
-                border: "1px solid #475569",
+                backgroundColor: colors.tooltipBg,
+                border: `1px solid ${colors.tooltipBorder}`,
                 borderRadius: "8px",
               }}
-              labelStyle={{ color: "#f1f5f9" }}
+              labelStyle={{ color: colors.tooltipText }}
             />
             <Area
               type="monotone"
               dataKey="users"
-              stroke="#3b82f6"
+              stroke={colors.line}
               fillOpacity={1}
               fill="url(#colorUsers)"
             />

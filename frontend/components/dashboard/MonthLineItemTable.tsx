@@ -62,16 +62,16 @@ export function MonthLineItemTable({ monthId, category, title, items, onChange }
   }
 
   return (
-    <div dir="rtl" className="bg-white rounded-xl shadow overflow-hidden">
-      <div className="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-slate-600 to-slate-800">
-        <h2 className="text-white font-bold text-lg">{title}</h2>
+    <div dir="rtl" className="bg-surface rounded-2xl shadow-soft dark:border dark:border-border overflow-hidden">
+      <div className="flex items-center justify-between px-6 py-4 bg-accent">
+        <h2 className="text-foreground font-bold text-lg">{title}</h2>
         <div className="flex items-center gap-2">
           <InlineAddPopover triggerLabel="הוסף" inputPlaceholder="מקור" onSubmit={handleAddItem} />
           <button
             type="button"
             onClick={handleSave}
             disabled={Object.keys(pending).length === 0 || saving}
-            className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-md transition-colors bg-green-600 text-white hover:bg-green-700 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-md transition-colors bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <Save className="w-3.5 h-3.5" />
             {saving ? "שומר..." : "שמירה"}
@@ -92,14 +92,14 @@ export function MonthLineItemTable({ monthId, category, title, items, onChange }
             const isDirty = Boolean(pending[item.id])
             return (
               <TableRow key={item.id} className="group">
-                <TableCell className="text-slate-700">{item.source}</TableCell>
+                <TableCell className="text-foreground/80">{item.source}</TableCell>
                 <TableCell className="text-center p-1">
                   <input
                     type="number"
                     defaultValue={item.amount}
                     onBlur={(e) => handleAmountChange(item.id, e.target.value)}
-                    className={`w-24 text-center border rounded px-1 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-blue-400 ${
-                      isDirty ? "border-amber-400 bg-amber-50" : "border-slate-200"
+                    className={`w-32 text-center border rounded px-1 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-ring ${
+                      isDirty ? "border-warning bg-warning/10" : "border-input"
                     }`}
                   />
                 </TableCell>
@@ -108,15 +108,15 @@ export function MonthLineItemTable({ monthId, category, title, items, onChange }
                     type="text"
                     defaultValue={item.notes ?? ""}
                     onBlur={(e) => handleNotesChange(item.id, e.target.value)}
-                    className={`w-full border rounded px-2 py-1 text-sm text-slate-600 focus:outline-none focus:ring-1 focus:ring-blue-400 ${
-                      isDirty ? "border-amber-400 bg-amber-50" : "border-slate-200"
+                    className={`w-full border rounded px-2 py-1 text-sm text-foreground/80 focus:outline-none focus:ring-1 focus:ring-ring ${
+                      isDirty ? "border-warning bg-warning/10" : "border-input"
                     }`}
                   />
                 </TableCell>
                 <TableCell className="p-1">
                   <button
                     onClick={() => handleDelete(item.id)}
-                    className="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-600 transition-opacity"
+                    className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-expense transition-opacity"
                     title="מחק שורה"
                   >
                     <X className="w-3.5 h-3.5" />
@@ -127,9 +127,9 @@ export function MonthLineItemTable({ monthId, category, title, items, onChange }
           })}
         </TableBody>
       </Table>
-      <div className="flex items-center justify-between px-4 py-3 bg-slate-800 text-white text-sm font-bold">
+      <div className="flex items-center justify-between px-4 py-3 bg-accent text-foreground text-sm font-bold">
         <span>סה"כ</span>
-        <span className="text-yellow-300">{formatCurrency(total)}</span>
+        <span className="text-primary">{formatCurrency(total)}</span>
       </div>
     </div>
   )

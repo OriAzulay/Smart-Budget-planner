@@ -58,9 +58,20 @@ describe("GridTable", () => {
     expect(screen.getByText("Column B")).toBeInTheDocument()
     expect(screen.getByText("Row A")).toBeInTheDocument()
 
-    // row total = 100 + 50 = 150, grand total = 150 too (single row)
+    // row total = 100 + 50 = 150
     const totals = screen.getAllByText((_, el) => Boolean(el?.textContent?.includes("150")))
     expect(totals.length).toBeGreaterThan(0)
+    expect(screen.queryByText('סה"כ כולל')).not.toBeInTheDocument()
+  })
+
+  it("shows a total per column instead of per row in column mode", async () => {
+    render(<GridTable gridKey="test_grid" title="Test Grid" totalsMode="column" />)
+
+    const footerLabel = await screen.findByText('סה"כ כולל')
+    const footerCells = within(footerLabel.closest("tr")!).getAllByRole("cell")
+    expect(footerCells[1]).toHaveTextContent("100")
+    expect(footerCells[2]).toHaveTextContent("50")
+    expect(screen.queryByRole("columnheader", { name: 'סה"כ' })).not.toBeInTheDocument()
   })
 
   it("marks a cell dirty after edit and saves pending changes on save click", async () => {

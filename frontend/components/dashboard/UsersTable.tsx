@@ -55,18 +55,18 @@ export function UsersTable() {
 
   if (session?.user?.role !== "admin") {
     return (
-      <Card className="bg-white">
+      <Card>
         <CardContent className="pt-6">
-          <p className="text-slate-600">Admin access required</p>
+          <p className="text-foreground/80">Admin access required</p>
         </CardContent>
       </Card>
     )
   }
 
   return (
-    <Card className="bg-white">
+    <Card>
       <CardHeader>
-        <CardTitle className="text-slate-900">Users</CardTitle>
+        <CardTitle className="text-foreground">Users</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
@@ -80,7 +80,7 @@ export function UsersTable() {
             <select
               value={roleFilter}
               onChange={(e) => setRoleFilter(e.target.value as any)}
-              className="px-3 py-2 border border-slate-300 rounded-md text-sm"
+              className="px-3 py-2 border border-input bg-surface rounded-md text-sm"
             >
               <option value="all">All Roles</option>
               <option value="admin">Admin</option>
@@ -93,12 +93,12 @@ export function UsersTable() {
               {[...Array(5)].map((_, i) => (
                 <div
                   key={i}
-                  className="h-12 bg-slate-100 rounded animate-pulse"
+                  className="h-12 bg-muted rounded animate-pulse"
                 />
               ))}
             </div>
           ) : filteredUsers.length === 0 ? (
-            <p className="text-center text-slate-500 py-4">No users found</p>
+            <p className="text-center text-muted-foreground py-4">No users found</p>
           ) : (
             <div className="overflow-x-auto">
               <Table>
@@ -134,7 +134,7 @@ export function UsersTable() {
                           {user.is_active ? "Active" : "Inactive"}
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-sm text-slate-500">
+                      <TableCell className="text-sm text-muted-foreground">
                         {new Date(user.created_at).toLocaleDateString()}
                       </TableCell>
                     </TableRow>
@@ -144,7 +144,7 @@ export function UsersTable() {
             </div>
           )}
 
-          <div className="text-sm text-slate-500 pt-4">
+          <div className="text-sm text-muted-foreground pt-4">
             Showing {filteredUsers.length} of {users.length} users
           </div>
         </div>

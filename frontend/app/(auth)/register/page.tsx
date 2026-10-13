@@ -49,24 +49,24 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md bg-white">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Create Account</CardTitle>
-          <p className="text-sm text-slate-600 mt-2">
+          <p className="text-sm text-foreground/80 mt-2">
             Join Dashboard Platform
           </p>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm">
+              <div className="bg-expense/10 border border-expense/30 text-expense px-4 py-3 rounded-md text-sm">
                 {error}
               </div>
             )}
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
+              <label className="block text-sm font-medium text-foreground/80 mb-1">
                 Full Name
               </label>
               <Input
@@ -82,7 +82,7 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
+              <label className="block text-sm font-medium text-foreground/80 mb-1">
                 Email
               </label>
               <Input
@@ -98,7 +98,7 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
+              <label className="block text-sm font-medium text-foreground/80 mb-1">
                 Password
               </label>
               <Input
@@ -114,7 +114,7 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
+              <label className="block text-sm font-medium text-foreground/80 mb-1">
                 Confirm Password
               </label>
               <Input
@@ -138,9 +138,9 @@ export default function RegisterPage() {
             </Button>
           </form>
 
-          <p className="text-sm text-slate-600 text-center mt-4">
+          <p className="text-sm text-foreground/80 text-center mt-4">
             Already have an account?{" "}
-            <Link href="/login" className="text-blue-600 hover:underline">
+            <Link href="/login" className="text-primary hover:underline">
               Login here
             </Link>
           </p>

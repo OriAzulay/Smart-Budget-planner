@@ -36,7 +36,7 @@ describe("Sidebar", () => {
     useSession.mockReturnValue({ data: { user: { role: "user" } } })
     render(<Sidebar />)
 
-    expect(screen.getByRole("link", { name: /דשבורד/ })).toHaveClass("bg-blue-600")
+    expect(screen.getByRole("link", { name: /דשבורד/ })).toHaveClass("bg-primary")
   })
 
   it("calls signOut when the logout button is clicked", async () => {

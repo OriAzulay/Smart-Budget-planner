@@ -35,18 +35,18 @@ export function BudgetTabBar() {
   const tabClass = (isActive: boolean) =>
     cn(
       "px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap",
-      isActive ? "bg-blue-600 text-white" : "text-slate-600 hover:bg-slate-100"
+      isActive ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent"
     )
 
   return (
-    <div dir="rtl" className="flex items-center gap-2 px-6 py-3 bg-white border-b border-slate-200 overflow-x-auto">
+    <div dir="rtl" className="flex items-center gap-2 px-6 py-3 bg-surface border-b border-border overflow-x-auto">
       {staticTabs.map((tab) => (
         <Link key={tab.href} href={tab.href} className={tabClass(pathname === tab.href)}>
           {tab.label}
         </Link>
       ))}
 
-      <div className="w-px self-stretch bg-slate-200 mx-1" />
+      <div className="w-px self-stretch bg-border mx-1" />
 
       {months.map((month) => (
         <Link
@@ -95,7 +95,7 @@ function AddMonthForm({ onCreated }: { onCreated: (id: string) => void }) {
       <select
         value={month}
         onChange={(e) => setMonth(e.target.value)}
-        className="w-full border border-slate-200 rounded px-2 py-1.5 text-sm text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-400"
+        className="w-full border border-input bg-surface rounded px-2 py-1.5 text-sm text-foreground/80 focus:outline-none focus:ring-1 focus:ring-ring"
       >
         {HEBREW_MONTHS.map((m) => (
           <option key={m} value={m}>
@@ -107,12 +107,12 @@ function AddMonthForm({ onCreated }: { onCreated: (id: string) => void }) {
         type="number"
         value={year}
         onChange={(e) => setYear(Number(e.target.value))}
-        className="w-full border border-slate-200 rounded px-2 py-1.5 text-sm text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-400"
+        className="w-full border border-input bg-surface rounded px-2 py-1.5 text-sm text-foreground/80 focus:outline-none focus:ring-1 focus:ring-ring"
       />
       <button
         type="submit"
         disabled={submitting}
-        className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-sm font-medium rounded px-2 py-1.5 transition-colors"
+        className="w-full bg-primary hover:bg-primary/90 disabled:opacity-50 text-primary-foreground text-sm font-medium rounded px-2 py-1.5 transition-colors"
       >
         הוסף חודש
       </button>

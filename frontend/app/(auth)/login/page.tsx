@@ -57,31 +57,31 @@ export default function LoginPage() {
 
   if (SKIP_LOGIN) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center p-4">
-        <p className="text-white text-sm">מתחבר אוטומטית (מצב פיתוח)...</p>
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <p className="text-muted-foreground text-sm">מתחבר אוטומטית (מצב פיתוח)...</p>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md bg-white">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Login</CardTitle>
-          <p className="text-sm text-slate-600 mt-2">
+          <p className="text-sm text-foreground/80 mt-2">
             Welcome to Dashboard Platform
           </p>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm">
+              <div className="bg-expense/10 border border-expense/30 text-expense px-4 py-3 rounded-md text-sm">
                 {error}
               </div>
             )}
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
+              <label className="block text-sm font-medium text-foreground/80 mb-1">
                 Email
               </label>
               <Input
@@ -95,7 +95,7 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
+              <label className="block text-sm font-medium text-foreground/80 mb-1">
                 Password
               </label>
               <Input
@@ -117,18 +117,18 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          <p className="text-sm text-slate-600 text-center mt-4">
+          <p className="text-sm text-foreground/80 text-center mt-4">
             Don't have an account?{" "}
-            <Link href="/register" className="text-blue-600 hover:underline">
+            <Link href="/register" className="text-primary hover:underline">
               Register here
             </Link>
           </p>
 
-          <div className="mt-6 pt-6 border-t border-slate-200">
-            <p className="text-xs text-slate-500 text-center mb-2">
+          <div className="mt-6 pt-6 border-t border-border">
+            <p className="text-xs text-muted-foreground text-center mb-2">
               Demo credentials:
             </p>
-            <p className="text-xs text-slate-600 text-center">
+            <p className="text-xs text-foreground/80 text-center">
               Email: admin@example.com
               <br />
               Password: password123

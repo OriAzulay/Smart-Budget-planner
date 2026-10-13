@@ -52,14 +52,14 @@ export function InlineAddPopover({
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-blue-600 hover:bg-blue-50 rounded-md transition-colors border border-dashed border-blue-300"
+        className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-primary hover:bg-accent rounded-md transition-colors border border-dashed border-primary/50"
       >
         <Plus className="w-3.5 h-3.5" />
         {triggerLabel}
       </button>
 
       {open && (
-        <div className="absolute z-50 top-full mt-1 right-0 w-56 bg-white border border-slate-200 rounded-lg shadow-lg p-3">
+        <div className="absolute z-50 top-full mt-1 right-0 w-56 bg-surface border border-border rounded-lg shadow-lg p-3">
           {children ? (
             children({ close })
           ) : (
@@ -70,12 +70,12 @@ export function InlineAddPopover({
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 placeholder={inputPlaceholder}
-                className="w-full border border-slate-200 rounded px-2 py-1.5 text-sm text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-400"
+                className="w-full border border-input bg-surface rounded px-2 py-1.5 text-sm text-foreground/80 focus:outline-none focus:ring-1 focus:ring-ring"
               />
               <button
                 type="submit"
                 disabled={submitting || !value.trim()}
-                className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-sm font-medium rounded px-2 py-1.5 transition-colors"
+                className="w-full bg-primary hover:bg-primary/90 disabled:opacity-50 text-primary-foreground text-sm font-medium rounded px-2 py-1.5 transition-colors"
               >
                 הוסף
               </button>

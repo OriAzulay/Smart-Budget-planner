@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { InlineAddPopover } from "@/components/dashboard/InlineAddPopover"
 import { gridsApi } from "@/lib/api"
 import { Grid } from "@/types"
@@ -11,6 +11,8 @@ import { Save, X } from "lucide-react"
 interface GridTableProps {
   gridKey: string
   title: string
+  /** "row": a total column at the end of each row. "column": a total row under each column. */
+  totalsMode?: "row" | "column"
 }
 
 const formatCurrency = (amount: number) =>
@@ -18,7 +20,7 @@ const formatCurrency = (amount: number) =>
 
 type PendingCell = { row_id: string; column_id: string; value: number | null }
 
-export function GridTable({ gridKey, title }: GridTableProps) {
+export function GridTable({ gridKey, title, totalsMode = "row" }: GridTableProps) {
   const [grid, setGrid] = useState<Grid | null>(null)
   const [loading, setLoading] = useState(true)
   const [pending, setPending] = useState<Record<string, PendingCell>>({})
@@ -98,22 +100,20 @@ export function GridTable({ gridKey, title }: GridTableProps) {
   const rowTotal = (row: Grid["rows"][number]) =>
     grid ? grid.columns.reduce((s, c) => s + (cellValue(row, c.id) ?? 0), 0) : 0
 
-  const grandTotal = grid ? grid.columns.reduce((s, c) => s + columnTotal(c.id), 0) : 0
-
   if (loading || !grid) {
     return (
       <Card>
         <CardHeader>
           <CardTitle>{title}</CardTitle>
         </CardHeader>
-        <CardContent className="text-slate-400 text-sm">טוען...</CardContent>
+        <CardContent className="text-muted-foreground text-sm">טוען...</CardContent>
       </Card>
     )
   }
 
   return (
     <Card dir="rtl" className="overflow-hidden">
-      <CardHeader className="flex flex-row items-center justify-between gap-3 bg-slate-50 border-b">
+      <CardHeader className="flex flex-row items-center justify-between gap-3 bg-muted border-b">
         <CardTitle className="text-lg">{title}</CardTitle>
         <div className="flex items-center gap-2">
           <InlineAddPopover
@@ -130,7 +130,7 @@ export function GridTable({ gridKey, title }: GridTableProps) {
             type="button"
             onClick={handleSave}
             disabled={Object.keys(pending).length === 0 || saving}
-            className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-md transition-colors bg-green-600 text-white hover:bg-green-700 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-md transition-colors bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <Save className="w-3.5 h-3.5" />
             {saving ? "שומר..." : "שמירה"}
@@ -141,16 +141,16 @@ export function GridTable({ gridKey, title }: GridTableProps) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="text-right sticky right-0 bg-slate-100 min-w-[110px] z-10">
+              <TableHead className="text-right sticky right-0 bg-muted min-w-[110px] z-10">
                 &nbsp;
               </TableHead>
               {grid.columns.map((col) => (
-                <TableHead key={col.id} className="text-center min-w-[100px] group">
+                <TableHead key={col.id} className="text-center min-w-[140px] group">
                   <span className="inline-flex items-center gap-1">
                     {col.label}
                     <button
                       onClick={() => handleDeleteColumn(col.id)}
-                      className="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-600 transition-opacity"
+                      className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-expense transition-opacity"
                       title="מחק עמודה"
                     >
                       <X className="w-3 h-3" />
@@ -158,18 +158,20 @@ export function GridTable({ gridKey, title }: GridTableProps) {
                   </span>
                 </TableHead>
               ))}
-              <TableHead className="text-center min-w-[100px] font-bold">סה"כ</TableHead>
+              {totalsMode === "row" && (
+                <TableHead className="text-center min-w-[100px] font-bold">סה"כ</TableHead>
+              )}
             </TableRow>
           </TableHeader>
           <TableBody>
             {grid.rows.map((row) => (
               <TableRow key={row.id} className="group">
-                <TableCell className="font-semibold text-slate-700 sticky right-0 bg-inherit">
+                <TableCell className="font-semibold text-foreground/80 sticky right-0 bg-inherit">
                   <span className="inline-flex items-center gap-1">
                     {row.label}
                     <button
                       onClick={() => handleDeleteRow(row.id)}
-                      className="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-600 transition-opacity"
+                      className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-expense transition-opacity"
                       title="מחק שורה"
                     >
                       <X className="w-3 h-3" />
@@ -185,24 +187,34 @@ export function GridTable({ gridKey, title }: GridTableProps) {
                         defaultValue={cellValue(row, col.id) ?? ""}
                         onBlur={(e) => handleCellChange(row.id, col.id, e.target.value)}
                         placeholder="—"
-                        className={`w-20 text-center border rounded px-1 py-1 text-sm text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-400 bg-transparent ${
-                          isDirty ? "border-amber-400 bg-amber-50" : "border-slate-200"
+                        className={`w-32 text-center border rounded px-1 py-1 text-sm text-foreground/80 focus:outline-none focus:ring-1 focus:ring-ring bg-transparent ${
+                          isDirty ? "border-warning bg-warning/10" : "border-input"
                         }`}
                       />
                     </TableCell>
                   )
                 })}
-                <TableCell className="text-center font-bold text-blue-700">
-                  {formatCurrency(rowTotal(row))}
-                </TableCell>
+                {totalsMode === "row" && (
+                  <TableCell className="text-center font-bold text-primary">
+                    {formatCurrency(rowTotal(row))}
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>
+          {totalsMode === "column" && (
+            <TableFooter className="bg-accent">
+              <TableRow className="hover:bg-transparent">
+                <TableCell className="font-bold text-foreground sticky right-0 bg-accent">סה"כ כולל</TableCell>
+                {grid.columns.map((col) => (
+                  <TableCell key={col.id} className="text-center font-bold text-primary">
+                    {formatCurrency(columnTotal(col.id))}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableFooter>
+          )}
         </Table>
-        <div className="flex items-center justify-between px-4 py-3 bg-slate-800 text-white text-sm font-bold">
-          <span>סה"כ כולל</span>
-          <span className="text-yellow-300">{formatCurrency(grandTotal)}</span>
-        </div>
       </CardContent>
     </Card>
   )
