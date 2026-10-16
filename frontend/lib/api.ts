@@ -17,7 +17,10 @@ export const apiClient = (): AxiosInstance => {
       async (config) => {
         try {
           const { getSession } = await import("next-auth/react")
-          const session = await getSession()
+          // broadcast: false — otherwise getSession() tells every useSession()
+          // to refetch, which re-runs effects that call the API, which calls
+          // getSession() again: an endless request loop.
+          const session = await getSession({ broadcast: false })
           if (session?.accessToken) {
             config.headers.Authorization = `Bearer ${session.accessToken}`
           }

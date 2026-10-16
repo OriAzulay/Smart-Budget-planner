@@ -23,8 +23,12 @@ export function UsersTable() {
   const [search, setSearch] = useState("")
   const [roleFilter, setRoleFilter] = useState<"all" | "admin" | "user">("all")
 
+  const isAdmin = session?.user?.role === "admin"
+
+  // Depend on the role, not the session object: the object is replaced on
+  // every session refetch, which would re-fetch the users list each time.
   useEffect(() => {
-    if (session?.user?.role !== "admin") {
+    if (!isAdmin) {
       setLoading(false)
       return
     }
@@ -42,7 +46,7 @@ export function UsersTable() {
     }
 
     fetchUsers()
-  }, [session])
+  }, [isAdmin])
 
   const filteredUsers = users.filter((user) => {
     const matchesSearch =
@@ -53,7 +57,7 @@ export function UsersTable() {
     return matchesSearch && matchesRole
   })
 
-  if (session?.user?.role !== "admin") {
+  if (!isAdmin) {
     return (
       <Card>
         <CardContent className="pt-6">
