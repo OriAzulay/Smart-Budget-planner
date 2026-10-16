@@ -25,5 +25,6 @@ Appends one new note to `notes/project_notes.txt` (the `notes/` folder is git-ig
    - The full description is bullet points (`•`), **at most 5 lines**.
    - Keep the user's facts. Don't invent details they didn't give. You may tighten the wording.
    - If the user's input is too long for 5 lines, keep the most important points.
+   - **Right-to-left:** start every non-empty line of a Hebrew note (including the `==================` line) with the invisible Right-to-Left Mark `U+200F`, so editors display it RTL and English words like `id_ed25519` stay in the right order. Write it with a script (e.g. Python `'‏'`), since it's invisible and easy to drop when typing it directly.
 3. **Append it.** Read `notes/project_notes.txt` (create it and the `notes/` folder if missing). Add the note at the end, separated from the previous note by one empty line. Never change or delete existing notes. Save as UTF-8.
 4. **Confirm.** Show the user the note that was added, nothing more.

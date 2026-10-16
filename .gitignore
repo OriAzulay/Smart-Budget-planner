@@ -21,3 +21,6 @@ id_rsa.pub
 
 # Personal project notes (app-note skill)
 notes/
+
+# Personal learning notes (learn-note skill)
+learning/
